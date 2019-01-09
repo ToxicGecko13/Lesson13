@@ -4,6 +4,7 @@
 // Games can be either turn based on realtime, this game is turn based.
 let gameState = {};
 
+
 InitializeBoardState();
 
 
@@ -23,9 +24,21 @@ function InitializeBoardState() {
         element.addEventListener('click', MainGameLogic);
     });
 
+    SaveBoardState();
+
+    LoadBoardState();
+
     // Update the screen so it is ready to go for the first turn.
     UpdateScreenState();
 }
+
+
+function LoadBoardState() {
+   if (localStorage.getItem("TicTacToe")) {
+       JSON.parse(TicTacToe)
+   }
+}
+
 
 // Use our gameState data to update what is displayed on our app page
 function UpdateScreenState() {
@@ -46,7 +59,16 @@ function UpdateScreenState() {
             document.getElementById(row.toString() + col.toString()).innerText = gameState.board[row][col];
         }
     }
+
+    SaveBoardState();
 }
+
+
+function SaveBoardState() {
+    gameStateString = JSON.stringify(gameState);
+    localStorage.setItem("TicTacToe", gameState);
+}
+
 
 // Event based game loop, called when the user click/chooses a game board square.
 function MainGameLogic(event) {
@@ -74,8 +96,11 @@ function MainGameLogic(event) {
         }
     };
 
+    SaveBoardState();
+
     UpdateScreenState();
 }
+
 
 function CheckForWinner() {
     // Here is the simplest logic for checking every possibility for win.
@@ -99,7 +124,7 @@ function CheckForWinner() {
     // check cols for win
     let col1 = gameState.board[0][0] + gameState.board[1][0] + gameState.board[2][0];
     let col2 = gameState.board[0][1] + gameState.board[1][1] + gameState.board[2][1];
-    let col3 = gameState.board[0][2] + gameState.board[1][2] + gameState.board[2][2];    
+    let col3 = gameState.board[0][2] + gameState.board[1][2] + gameState.board[2][2];
     if (col1 === "XXX" || col2 === "XXX" || col3 === "XXX") {
         gameState.Winner = "X";
     }
@@ -116,6 +141,8 @@ function CheckForWinner() {
     if (x1 === "OOO" || x2 === "OOO") {
         gameState.Winner = "O";
     }
+
+    SaveBoardState();
 
     // Return true if the a winner has been found.
     return (gameState.Winner.length > 0);
