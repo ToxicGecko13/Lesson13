@@ -22,21 +22,31 @@ function InitializeBoardState() {
     // add events for when the users click on squares.
     document.querySelectorAll('.sq').forEach((element) => {
         element.addEventListener('click', MainGameLogic);
+        // element.addEventListener('click', SaveBoardState());
     });
 
-    SaveBoardState();
-
-    LoadBoardState();
+    LoadBoardState()
 
     // Update the screen so it is ready to go for the first turn.
     UpdateScreenState();
 }
 
 
+function SaveBoardState() {
+    let gameStateString = {gameState};
+    localStorage.setItem("TicTacToe", JSON.stringify(gameStateString));
+    // gameStateString = JSON.stringify(gameState);
+    // localStorage.setItem("TicTacToe", gameStateString);
+}
+
+
 function LoadBoardState() {
-   if (localStorage.getItem("TicTacToe")) {
-       JSON.parse(TicTacToe)
-   }
+//    if (localStorage.getItem("TicTacToe")) {
+//        JSON.parse(TicTacToe)
+//    }
+    if (localStorage.getItem("TicTacToe")) {
+        gameStateString = JSON.parse(localStorage.getItem("TicTacToe"));
+    }
 }
 
 
@@ -59,14 +69,6 @@ function UpdateScreenState() {
             document.getElementById(row.toString() + col.toString()).innerText = gameState.board[row][col];
         }
     }
-
-    SaveBoardState();
-}
-
-
-function SaveBoardState() {
-    gameStateString = JSON.stringify(gameState);
-    localStorage.setItem("TicTacToe", gameState);
 }
 
 
@@ -96,8 +98,6 @@ function MainGameLogic(event) {
         }
     };
 
-    SaveBoardState();
-
     UpdateScreenState();
 }
 
@@ -124,7 +124,7 @@ function CheckForWinner() {
     // check cols for win
     let col1 = gameState.board[0][0] + gameState.board[1][0] + gameState.board[2][0];
     let col2 = gameState.board[0][1] + gameState.board[1][1] + gameState.board[2][1];
-    let col3 = gameState.board[0][2] + gameState.board[1][2] + gameState.board[2][2];
+    let col3 = gameState.board[0][2] + gameState.board[1][2] + gameState.board[2][2];    
     if (col1 === "XXX" || col2 === "XXX" || col3 === "XXX") {
         gameState.Winner = "X";
     }
@@ -141,8 +141,6 @@ function CheckForWinner() {
     if (x1 === "OOO" || x2 === "OOO") {
         gameState.Winner = "O";
     }
-
-    SaveBoardState();
 
     // Return true if the a winner has been found.
     return (gameState.Winner.length > 0);
