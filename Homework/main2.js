@@ -20,7 +20,6 @@ function ResetBoardState() {
     };
     SaveBoardState();
     InitializeBoardState();
-
 }
 
 
@@ -44,22 +43,22 @@ function LoadBoardState() {
 
 
 function InitializeBoardState() {
-
+    
     LoadBoardState();
 
     // add events for when the users click on squares.
     document.querySelectorAll('.sq').forEach((element) => {
         element.addEventListener('click', MainGameLogic);
     });
-
+    
     // Update the screen so it is ready to go for the first turn.
     UpdateScreenState();
 }
 
 
 function SaveBoardState() {
-    let gameStateString = {gameState};
-    localStorage.setItem("TicTacToe", JSON.stringify(gameStateString));
+    let gameStateSting = {gameState};
+    localStorage.setItem("TicTacToe", JSON.stringify(gameStateSting));
 }
 
 
@@ -110,10 +109,8 @@ function MainGameLogic(event) {
             }
         }
     };
-    SaveBoardState();
 
     UpdateScreenState();
-
 }
 
 

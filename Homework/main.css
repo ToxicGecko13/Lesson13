@@ -41,3 +41,7 @@ body {
   .right {
     border-right: 1px solid black;
   }
+
+h1 {
+    align-self: auto;
+  }
